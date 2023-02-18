@@ -78,8 +78,8 @@ class MemberServiceTest {
             .thenReturn(Optional.ofNullable(Member.builder().build()));
 
         // then
-        assertEquals("로그인 ID가 이미 존재합니다."
-            , assertThrows(RuntimeException.class, () -> memberService.join(memberDto))
+        assertEquals("로그인 ID가 이미 존재합니다.",
+            assertThrows(RuntimeException.class, () -> memberService.join(memberDto))
                 .getMessage());
     }
 
