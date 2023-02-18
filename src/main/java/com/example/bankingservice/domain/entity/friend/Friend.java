@@ -1,36 +1,45 @@
-package com.example.bankingservice.domain.entity.member;
+package com.example.bankingservice.domain.entity.friend;
 
 import com.example.bankingservice.domain.entity.BaseEntity;
+import com.example.bankingservice.domain.entity.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class Member extends BaseEntity {
+@Data
+public class Friend extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
-    @Column
-    private String userName;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Member member;
 
-    @Column(unique = true)
-    private String loginId;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Member friend;
+
+    @Column
+    private String nickName;
 
 }

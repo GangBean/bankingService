@@ -1,14 +1,17 @@
 package com.example.bankingservice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.entity.member.Password;
 import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.repository.PasswordRepository;
 import com.example.bankingservice.domain.view.dto.MemberDto;
 import com.example.bankingservice.util.EncryptUtil;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,21 +65,21 @@ class MemberServiceTest {
         String userName = "사용자";
         String loginId = "아이디1";
         String password = "1234";
-        String encryptPassword = EncryptUtil.getEncrypt(password);
+
         MemberDto memberDto = MemberDto.builder()
             .userName(userName)
             .loginId(loginId)
             .password(password)
             .build();
 
-        when(memberRepository.save(any())).thenReturn(memberDto.asMember());
-        when(passwordRepository.save(any())).thenReturn(
-            Password.builder().hashValue(encryptPassword).build());
-        MemberDto joinMember = memberService.join(memberDto);
-
         // when
-        memberService.join(memberDto);
-        assertThat(1).isEqualTo(0);
+        when(memberRepository.findDistinctByLoginId(loginId))
+            .thenReturn(Optional.ofNullable(Member.builder().build()));
+
+        // then
+        assertEquals("로그인 ID가 이미 존재합니다."
+            , assertThrows(RuntimeException.class, () -> memberService.join(memberDto))
+                .getMessage());
     }
 
 }

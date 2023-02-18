@@ -1,11 +1,14 @@
-package com.example.bankingservice.domain.entity.member;
+package com.example.bankingservice.domain.entity.account;
 
 import com.example.bankingservice.domain.entity.BaseEntity;
+import com.example.bankingservice.domain.entity.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,17 +23,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class Member extends BaseEntity {
+public class Account extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column
-    private String userName;
+    @JoinColumn
+    @OneToOne
+    private Member member;
 
-    @Column(unique = true)
-    private String loginId;
+    @Column
+    private Long amount;
 
 }

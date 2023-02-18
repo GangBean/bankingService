@@ -53,4 +53,24 @@ class MemberRepositoryTest {
         assertThat(readMember.getUserName()).isEqualTo(userName);
         assertThat(readMember.getLoginId()).isEqualTo(loginId);
     }
+
+    @Test
+    @DisplayName("로그인 아이디로 멤버 찾기")
+    void memberFindDistinctByLoginId() {
+        // given
+        String userName = "테스트";
+        String loginId = "login";
+        Member member = Member.builder()
+            .userName(userName)
+            .loginId(loginId)
+            .build();
+        Member savedMember = repository.save(member);
+
+        // when
+        Member duplicateMember = repository
+            .findDistinctByLoginId(savedMember.getLoginId()).get();
+
+        // then
+        assertThat(duplicateMember.getLoginId()).isEqualTo(loginId);
+    }
 }
