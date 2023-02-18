@@ -5,8 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
- * 비밀번호 암호화 위한 유틸클래스
- * SHA-256 + Salt 알고리즘 사용
+ * 비밀번호 암호화 위한 유틸클래스 SHA-256 + Salt 알고리즘 사용
  */
 public class EncryptUtil {
 
