@@ -144,7 +144,7 @@ public class FriendServiceTest {
 
     @Test
     @DisplayName("친구목록 조회 - 대상 없음")
-    void readFriendList() {
+    void readFriendListNoFriend() {
         // given
         String userName = "유저명";
         String loginId = "아이디";
