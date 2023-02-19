@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +23,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-@Data
 public class Friend extends BaseEntity {
 
     @Id

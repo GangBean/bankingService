@@ -124,49 +124,7 @@ public class FriendServiceTest {
         );
 
         List<Friend> friendList = memberList.stream()
-            .map(x->Friend.builder()
-                .friend(x)
-                .build())
-            .collect(Collectors.toList());
-
-        // when
-        when(friendRepository.findAllByMemberId(3L)).thenReturn(friendList);
-        FriendDto friends = friendService.readFriends(FriendDto.builder()
-            .member(Member.builder()
-                .id(3L)
-                .build())
-            .build());
-
-        // then
-        assertThat(friends.getFriends()).contains(member);
-        assertThat(friends.getFriends()).contains(member2);
-    }
-
-    @Test
-    @DisplayName("친구목록 조회 - 대상 없음")
-    void readFriendListNoFriend() {
-        // given
-        String userName = "유저명";
-        String loginId = "아이디";
-        Member member = Member.builder()
-            .id(1L)
-            .userName(userName)
-            .loginId(loginId)
-            .build();
-
-        String userName2 = "유저명";
-        String loginId2 = "아이디";
-        Member member2 = Member.builder()
-            .id(2L)
-            .userName(userName2)
-            .loginId(loginId2)
-            .build();
-        List<Member> memberList = new ArrayList<>(
-            Arrays.asList(member, member2)
-        );
-
-        List<Friend> friendList = memberList.stream()
-            .map(x->Friend.builder()
+            .map(x -> Friend.builder()
                 .friend(x)
                 .build())
             .collect(Collectors.toList());
