@@ -1,7 +1,10 @@
 package com.example.bankingservice.service;
 
+import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.repository.FriendRepository;
 import com.example.bankingservice.domain.view.dto.FriendDto;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,4 +25,12 @@ public class FriendService {
         }
     }
 
+    public FriendDto readFriends(FriendDto friendDto) {
+        List<Friend> friendList = friendRepository.findAllByMemberId(friendDto.getMember().getId());
+        return FriendDto.builder()
+            .friends(friendList.stream()
+                .map(Friend::getFriend)
+                .collect(Collectors.toList()))
+            .build();
+    }
 }

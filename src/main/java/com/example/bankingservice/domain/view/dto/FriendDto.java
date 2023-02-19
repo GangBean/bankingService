@@ -3,8 +3,10 @@ package com.example.bankingservice.domain.view.dto;
 
 import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.entity.member.Member;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
+@Builder
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -29,6 +32,8 @@ public class FriendDto {
     private Member friend;
 
     private String nickName;
+
+    private List<Member> friends;
 
     public Friend asFriend() {
         Friend friend = new Friend();
