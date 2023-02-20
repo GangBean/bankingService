@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
@@ -23,6 +25,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
+@DynamicInsert
 public class Account extends BaseEntity {
 
     @Id
@@ -34,7 +37,8 @@ public class Account extends BaseEntity {
     @OneToOne
     private Member member;
 
-    @Column
+    @Column(nullable = false)
+    @ColumnDefault("0")
     private Long amount;
 
 }

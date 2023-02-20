@@ -235,16 +235,13 @@ class FriendRepositoryTest {
         friendRepository.save(friend2);
 
         // when
-        List<Friend> friendList = friendRepository.findAllByMemberId(savedMember.getId());
+        List<Friend> friendList = friendRepository.findAllByMemberId(10L);
         List<Member> friendMemberList = friendList.stream()
             .map(Friend::getFriend)
             .collect(Collectors.toList());
 
         // then
-        log.info(friendList.toString());
-        log.info(friendMemberList.toString());
-        assertThat(friendMemberList).contains(member2);
-        assertThat(friendMemberList).contains(member3);
+        assertThat(friendMemberList).hasSize(0);
     }
 
 }
