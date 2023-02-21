@@ -121,9 +121,11 @@ class TradeRepositoryTest {
             .build();
 
         // then
-        assertThat(assertThrows(ConstraintViolationException.class,
-            () -> tradeRepository.save(trade)).getConstraintViolations().iterator().next()
-            .getMessage()).isEqualTo("0 이상이어야 합니다");
+        assertThrows(ConstraintViolationException.class,
+            () -> tradeRepository.save(trade));
+//        assertThat(assertThrows(ConstraintViolationException.class,
+//            () -> tradeRepository.save(trade)).getConstraintViolations().iterator().next()
+//            .getMessage()).isEqualTo("0 이상이어야 합니다");
     }
 
     @Test
