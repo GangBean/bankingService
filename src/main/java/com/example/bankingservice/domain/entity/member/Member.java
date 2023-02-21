@@ -30,7 +30,7 @@ public class Member extends BaseEntity {
     @Column
     private String userName;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String loginId;
 
 }

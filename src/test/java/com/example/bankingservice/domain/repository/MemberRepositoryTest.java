@@ -3,10 +3,12 @@ package com.example.bankingservice.domain.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.bankingservice.domain.entity.member.Member;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @DataJpaTest
 class MemberRepositoryTest {
@@ -29,8 +31,21 @@ class MemberRepositoryTest {
         Member savedMember = repository.save(member);
 
         // then
-        System.out.println(savedMember);
         assertThat(savedMember).isSameAs(member);
+    }
+
+    @Test
+    @DisplayName("회원 생성 비정상 테스트-로그인 아이디 없음")
+    void createMemberWithNoLoginId() {
+        // given
+        String userName = "테스트";
+        Member member = Member.builder()
+            .userName(userName)
+            .build();
+
+        // then
+        Assertions.assertThrows(DataIntegrityViolationException.class,
+            () -> repository.save(member));
     }
 
     @Test
@@ -49,7 +64,6 @@ class MemberRepositoryTest {
         Member readMember = repository.findById(savedMember.getId()).get();
 
         // then
-        System.out.println(readMember);
         assertThat(readMember.getUserName()).isEqualTo(userName);
         assertThat(readMember.getLoginId()).isEqualTo(loginId);
     }

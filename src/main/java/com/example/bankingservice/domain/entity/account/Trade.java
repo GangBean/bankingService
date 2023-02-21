@@ -1,46 +1,53 @@
 package com.example.bankingservice.domain.entity.account;
 
+
 import com.example.bankingservice.domain.entity.BaseEntity;
-import com.example.bankingservice.domain.entity.member.Member;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 
-@Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
-@Builder
 @ToString
-@DynamicInsert
-public class Account extends BaseEntity {
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class Trade extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @JoinColumn(nullable = false)
-    @OneToOne
-    private Member member;
+    @ManyToOne
+    private Account account;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
-    @Min(0)
-    private Long amount;
+    private LocalDateTime tradeDateTime;
 
+    @Column(nullable = false)
+    @Min(0)
+    private Long tradeAmount;
+
+    @Column(nullable = false)
+    @Enumerated
+    private TradeType tradeType;
+
+    public enum TradeType {
+        DEPOSIT, WITHDRAWAL
+    }
 }
