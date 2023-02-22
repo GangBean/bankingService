@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.FriendRepository;
-import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.view.dto.FriendDto;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class FriendServiceTest {
-
-    @Mock
-    MemberRepository memberRepository;
 
     @Mock
     FriendRepository friendRepository;
@@ -71,6 +67,34 @@ public class FriendServiceTest {
         assertThat(saved.getMember()).isSameAs(member1);
         assertThat(saved.getFriend()).isSameAs(member2);
         assertThat(saved.getNickName()).isEqualTo(nickname);
+    }
+
+    @Test
+    @DisplayName("친구 목록 생성 실패 테스트 - 미 존재 회원 친구 등록")
+    void createSelfFriendFailureNoMember() {
+        // given
+        Long memberId = 1L;
+        String userName = "유저";
+        String loginId = "아이디";
+        Member member1 = Member.builder()
+            .id(memberId)
+            .userName(userName)
+            .loginId(loginId)
+            .build();
+
+        String nickname = "닉네임";
+        Friend friend = Friend.builder()
+            .id(1L)
+            .member(member1)
+            .friend(member1)
+            .nickName(nickname)
+            .build();
+
+        // then
+        assertThat(1L).isEqualTo(2L);
+        assertThat(assertThrows(RuntimeException.class,
+            () -> friendService.addFriend(FriendDto.friendOf(friend)))
+            .getMessage()).isEqualTo("사용자 본인은 친구로 등록할 수 없습니다.");
     }
 
     @Test

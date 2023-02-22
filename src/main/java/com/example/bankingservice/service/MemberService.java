@@ -17,7 +17,7 @@ public class MemberService {
 
     private final PasswordRepository passwordRepository;
 
-    public MemberDto join(MemberDto memberDto) {
+    public MemberDto join(MemberDto memberDto) throws Exception {
         validateLoginIdDuplicate(memberDto.getLoginId());
         Member savedMember = memberRepository.save(memberDto.asMember());
 
@@ -28,6 +28,11 @@ public class MemberService {
             .userName(savedMember.getUserName())
             .loginId(savedMember.getLoginId())
             .build();
+    }
+
+    public MemberDto findById(Long id) {
+        return MemberDto.memberOf(memberRepository.findById(id)
+            .orElse(Member.builder().build()));
     }
 
     private void validateLoginIdDuplicate(String loginId) {

@@ -34,7 +34,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 정보 정상 가입 테스트")
-    void memberJoin() {
+    void memberJoin() throws Exception {
         // given
         String userName = "사용자";
         String loginId = "아이디1";
@@ -51,6 +51,28 @@ class MemberServiceTest {
         when(passwordRepository.save(any())).thenReturn(
             Password.builder().hashValue(encryptPassword).build());
         MemberDto joinMember = memberService.join(memberDto);
+
+        // then
+        assertThat(joinMember.getLoginId()).isNotNull();
+        assertThat(joinMember.getUserName()).isEqualTo(userName);
+        assertThat(joinMember.getLoginId()).isEqualTo(loginId);
+        assertThat(joinMember.getPassword()).isNull();
+    }
+
+    @Test
+    @DisplayName("회원 정보 정상 조회 테스트 - id로 조회")
+    void findMemberById() throws Exception {
+        // given
+        String userName = "사용자";
+        String loginId = "아이디1";
+
+        // when
+        when(memberRepository.findById(any())).thenReturn(Optional.ofNullable(Member.builder()
+                .id(1L)
+                .userName(userName)
+                .loginId(loginId)
+            .build()));
+        MemberDto joinMember = memberService.findById(1L);
 
         // then
         assertThat(joinMember.getLoginId()).isNotNull();
