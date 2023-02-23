@@ -2,6 +2,7 @@ package com.example.bankingservice.service;
 
 import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.repository.FriendRepository;
+import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.view.dto.FriendDto;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,10 @@ public class FriendService {
 
     private final FriendRepository friendRepository;
 
+    private final MemberRepository memberRepository;
+
     public FriendDto addFriend(FriendDto friendDto) {
+        validateValidMember(friendDto);
         validateSelf(friendDto);
         return FriendDto.friendOf(friendRepository.save(friendDto.asFriend()));
     }
@@ -22,6 +26,14 @@ public class FriendService {
     private void validateSelf(FriendDto friendDto) {
         if (friendDto.getMember().getId() == friendDto.getFriend().getId()) {
             throw new RuntimeException("사용자 본인은 친구로 등록할 수 없습니다.");
+        }
+    }
+
+    private void validateValidMember(FriendDto friendDto) {
+        if (!memberRepository.existsById(friendDto.getMember().getId())) {
+            throw new RuntimeException("가입되어 있지 않은 회원입니다.");
+        } else if (!memberRepository.existsById(friendDto.getFriend().getId())) {
+            throw new RuntimeException("가입되어 있지 않은 친구회원입니다.");
         }
     }
 

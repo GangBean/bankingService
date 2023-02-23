@@ -3,11 +3,13 @@ package com.example.bankingservice.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.FriendRepository;
+import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.view.dto.FriendDto;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +27,9 @@ public class FriendServiceTest {
 
     @Mock
     FriendRepository friendRepository;
+
+    @Mock
+    MemberRepository memberRepository;
 
     @InjectMocks
     FriendService friendService;
@@ -70,7 +75,46 @@ public class FriendServiceTest {
     }
 
     @Test
-    @DisplayName("친구 목록 생성 실패 테스트 - 미 존재 회원 친구 등록")
+    @DisplayName("친구 목록 생성 실패 테스트 - 미 존재 회원이 등록")
+    void createSelfFriendFailureByNoMember() {
+        // given
+        Long memberId = 1L;
+        String userName = "유저";
+        String loginId = "아이디";
+        Member member1 = Member.builder()
+            .id(memberId)
+            .userName(userName)
+            .loginId(loginId)
+            .build();
+
+        Long memberId2 = 2L;
+        String userName2 = "유저2";
+        String loginId2 = "아이디2";
+        Member member2 = Member.builder()
+            .id(memberId2)
+            .userName(userName2)
+            .loginId(loginId2)
+            .build();
+
+        String nickname = "닉네임";
+        Friend friend = Friend.builder()
+            .id(1L)
+            .member(member1)
+            .friend(member2)
+            .nickName(nickname)
+            .build();
+
+        // when
+        given(memberRepository.existsById(any())).willReturn(false);
+
+        // then
+        assertThat(assertThrows(RuntimeException.class,
+            () -> friendService.addFriend(FriendDto.friendOf(friend))).getMessage())
+            .isEqualTo("가입되어 있지 않은 회원입니다.");
+    }
+
+    @Test
+    @DisplayName("친구 목록 생성 실패 테스트 - 미 존재 회원을 친구 등록")
     void createSelfFriendFailureNoMember() {
         // given
         Long memberId = 1L;
@@ -82,19 +126,31 @@ public class FriendServiceTest {
             .loginId(loginId)
             .build();
 
+        Long memberId2 = 2L;
+        String userName2 = "유저2";
+        String loginId2 = "아이디2";
+        Member member2 = Member.builder()
+            .id(memberId2)
+            .userName(userName2)
+            .loginId(loginId2)
+            .build();
+
+
         String nickname = "닉네임";
         Friend friend = Friend.builder()
             .id(1L)
             .member(member1)
-            .friend(member1)
+            .friend(member2)
             .nickName(nickname)
             .build();
 
+        // when
+        given(memberRepository.existsById(any())).willReturn(true).willReturn(false);
+
         // then
-        assertThat(1L).isEqualTo(2L);
         assertThat(assertThrows(RuntimeException.class,
-            () -> friendService.addFriend(FriendDto.friendOf(friend)))
-            .getMessage()).isEqualTo("사용자 본인은 친구로 등록할 수 없습니다.");
+            () -> friendService.addFriend(FriendDto.friendOf(friend))).getMessage())
+            .isEqualTo("가입되어 있지 않은 친구회원입니다.");
     }
 
     @Test
