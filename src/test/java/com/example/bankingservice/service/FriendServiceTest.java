@@ -21,6 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ExtendWith(MockitoExtension.class)
 public class FriendServiceTest {
@@ -33,6 +35,8 @@ public class FriendServiceTest {
 
     @InjectMocks
     FriendService friendService;
+
+    Logger logger = LoggerFactory.getLogger(FriendServiceTest.class);
 
     @Test
     @DisplayName("친구 목록 생성 테스트")
@@ -66,6 +70,7 @@ public class FriendServiceTest {
 
         // when
         when(friendRepository.save(any())).thenReturn(friend);
+        given(memberRepository.existsById(any())).willReturn(true).willReturn(true);
         FriendDto saved = friendService.addFriend(FriendDto.friendOf(friend));
 
         // then
@@ -173,6 +178,9 @@ public class FriendServiceTest {
             .friend(member1)
             .nickName(nickname)
             .build();
+
+        // when
+        given(memberRepository.existsById(any())).willReturn(true).willReturn(true);
 
         // then
         assertThat(assertThrows(RuntimeException.class,

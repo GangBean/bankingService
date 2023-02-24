@@ -149,7 +149,8 @@ class MemberControllerTest {
             .accept(MediaType.APPLICATION_JSON)
             .characterEncoding("UTF-8")
             .content(
-                "{ \"friend\" : { \"id\" : \"2\", \"userName\" : \"로오미\", \"loginId\" : \"box1235\" }"
+                "{ \"friend\" : { \"id\" : \"2\", \"userName\" : \"로오미\""
+                    + ", \"loginId\" : \"box1235\" }"
                     + ", \"nickname\" : \"베프\" }"));
 
         // then
@@ -183,7 +184,8 @@ class MemberControllerTest {
             .accept(MediaType.APPLICATION_JSON)
             .characterEncoding("UTF-8")
             .content(
-                "{ \"friend\" : { \"id\" : \"1\", \"userName\" : \"로미\", \"loginId\" : \"box1234\" }"
+                "{ \"friend\" : { \"id\" : \"1\", \"userName\" : \"로미\""
+                    + ", \"loginId\" : \"box1234\" }"
                     + ", \"nickname\" : \"베프\" }"));
 
         // then

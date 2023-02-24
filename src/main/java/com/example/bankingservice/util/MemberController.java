@@ -34,7 +34,8 @@ public class MemberController {
     }
 
     @PostMapping("/{id}/friends")
-    public ResponseEntity<FriendDto> addFriend(@PathVariable Long id, @RequestBody FriendDto inputDto) {
+    public ResponseEntity<FriendDto> addFriend(@PathVariable Long id,
+        @RequestBody FriendDto inputDto) {
         try {
             inputDto.setMember(memberService.findById(id).asMember());
             return new ResponseEntity<>(friendService.addFriend(inputDto), HttpStatus.CREATED);
