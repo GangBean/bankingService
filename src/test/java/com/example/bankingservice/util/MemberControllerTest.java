@@ -9,8 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.bankingservice.domain.entity.member.Member;
+import com.example.bankingservice.domain.view.dto.AccountDto;
 import com.example.bankingservice.domain.view.dto.FriendDto;
 import com.example.bankingservice.domain.view.dto.MemberDto;
+import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
 import java.util.ArrayList;
@@ -40,6 +42,9 @@ class MemberControllerTest {
 
     @MockBean
     FriendService friendService;
+
+    @MockBean
+    AccountService accountService;
 
     Logger logger = LoggerFactory.getLogger(MemberControllerTest.class);
 
@@ -249,6 +254,60 @@ class MemberControllerTest {
         given(friendService.readFriends(any())).willThrow(new RuntimeException());
 
         ResultActions perform = mvc.perform(get("/members/{id}/friends", 1L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .characterEncoding("UTF-8")
+            .content("{}"));
+
+        // then
+        perform.andExpect(status().isNotFound())
+            .andDo(MockMvcResultHandlers.print())
+        ;
+    }
+
+    @Test
+    @DisplayName("계좌 조회 정상 테스트")
+    void readAccounts() throws Exception {
+        // given
+        String loginId = "box1234";
+        String userName = "로미";
+        String nickname = "베프";
+
+        // when
+        given(accountService.readAccounts(any())).willReturn(AccountDto.builder()
+            .id(1L)
+            .member(Member.builder()
+                .id(1L)
+                .loginId(loginId)
+                .userName(userName)
+                .build())
+            .amount(10_000L)
+            .build());
+
+        ResultActions perform = mvc.perform(get("/members/{id}/accounts", 1L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .characterEncoding("UTF-8")
+            .content("{}"));
+
+        // then
+        perform.andExpect(status().isOk())
+            .andExpect(jsonPath("$.member.id").value(1L))
+            .andExpect(jsonPath("$.member.loginId").value(loginId))
+            .andExpect(jsonPath("$.member.userName").value(userName))
+            .andExpect(jsonPath("$.amount").value(10_000L))
+            .andExpect(jsonPath("$.id").value(1L))
+            .andDo(MockMvcResultHandlers.print())
+        ;
+    }
+
+    @Test
+    @DisplayName("계좌 조회 비정상 테스트 - 조회 요청 회원 미가입")
+    void readAccountsWithNotRegisteredMember() throws Exception {
+        // when
+        given(accountService.readAccounts(any())).willThrow(new RuntimeException());
+
+        ResultActions perform = mvc.perform(get("/members/{id}/accounts", 1L)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .characterEncoding("UTF-8")

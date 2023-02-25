@@ -1,7 +1,9 @@
 package com.example.bankingservice.util;
 
+import com.example.bankingservice.domain.view.dto.AccountDto;
 import com.example.bankingservice.domain.view.dto.FriendDto;
 import com.example.bankingservice.domain.view.dto.MemberDto;
+import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ public class MemberController {
     private final MemberService memberService;
 
     private final FriendService friendService;
+
+    private final AccountService accountService;
 
     @PostMapping
     public ResponseEntity<MemberDto> joinMember(@RequestBody MemberDto inputDto) {
@@ -52,6 +56,18 @@ public class MemberController {
         @RequestBody FriendDto friendDto) {
         try {
             return new ResponseEntity<>(friendService.readFriends(friendDto), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{id}/accounts")
+    public ResponseEntity<AccountDto> readAccounts(@PathVariable Long id,
+        @RequestBody AccountDto accountDto) {
+        try {
+            return new ResponseEntity<>(accountService.readAccounts(accountDto), HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {

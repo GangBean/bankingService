@@ -3,6 +3,7 @@ package com.example.bankingservice.domain.view.dto;
 import com.example.bankingservice.domain.entity.account.Account;
 import com.example.bankingservice.domain.entity.member.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 @Getter
 @Setter
 @ToString
+@Builder
 public class AccountDto {
 
     private Long id;

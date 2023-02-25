@@ -71,7 +71,7 @@ public class AccountServiceTest {
 
         // when
         when(accountRepository.findByMemberId(any())).thenReturn(Optional.ofNullable(account1));
-        AccountDto accountDto = accountService.readAccount(AccountDto.accountOf(account1));
+        AccountDto accountDto = accountService.readAccounts(AccountDto.accountOf(account1));
 
         // then
         assertThat(accountDto.getMember()).isSameAs(member);
