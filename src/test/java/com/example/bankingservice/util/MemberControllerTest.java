@@ -2,6 +2,7 @@ package com.example.bankingservice.util;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -12,6 +13,8 @@ import com.example.bankingservice.domain.view.dto.FriendDto;
 import com.example.bankingservice.domain.view.dto.MemberDto;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -190,6 +193,69 @@ class MemberControllerTest {
 
         // then
         perform.andExpect(status().isConflict())
+            .andDo(MockMvcResultHandlers.print())
+        ;
+    }
+
+    @Test
+    @DisplayName("친구 조회 정상 테스트")
+    void readFriends() throws Exception {
+        // given
+        String loginId = "box1234";
+        String userName = "로미";
+        String nickname = "베프";
+
+        List<Member> list = new ArrayList<>();
+        list.add(Member.builder()
+            .id(2L)
+            .loginId(loginId)
+            .userName(userName)
+            .build());
+
+        FriendDto friendDto = FriendDto.builder()
+            .member(Member.builder()
+                .id(1L)
+                .loginId("xbox123")
+                .userName("미로")
+                .build())
+            .friends(list)
+            .nickName(nickname)
+            .build();
+
+        // when
+        given(friendService.readFriends(any())).willReturn(friendDto);
+
+        ResultActions perform = mvc.perform(get("/members/{id}/friends", 1L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .characterEncoding("UTF-8")
+            .content("{}"));
+
+        // then
+        perform.andExpect(status().isOk())
+            .andExpect(jsonPath("$.friends").isNotEmpty())
+            .andExpect(jsonPath("$.friends.size()").value(1))
+            .andExpect(jsonPath("$.member.loginId").value("xbox123"))
+            .andExpect(jsonPath("$.member.userName").value("미로"))
+            .andExpect(jsonPath("$.nickName").value(nickname))
+            .andDo(MockMvcResultHandlers.print())
+        ;
+    }
+
+    @Test
+    @DisplayName("친구 조회 비정상 테스트 - 조회 요청 회원 미가입")
+    void readFriendsFailureRequestUserNotMember() throws Exception {
+        // when
+        given(friendService.readFriends(any())).willThrow(new RuntimeException());
+
+        ResultActions perform = mvc.perform(get("/members/{id}/friends", 1L)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .characterEncoding("UTF-8")
+            .content("{}"));
+
+        // then
+        perform.andExpect(status().isNotFound())
             .andDo(MockMvcResultHandlers.print())
         ;
     }

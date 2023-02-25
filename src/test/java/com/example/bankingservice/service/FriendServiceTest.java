@@ -219,6 +219,7 @@ public class FriendServiceTest {
 
         // when
         when(friendRepository.findAllByMemberId(3L)).thenReturn(friendList);
+        when(memberRepository.existsById(any())).thenReturn(true);
         FriendDto friends = friendService.readFriends(FriendDto.builder()
             .member(Member.builder()
                 .id(3L)
