@@ -1,5 +1,6 @@
 package com.example.bankingservice.service;
 
+import com.example.bankingservice.domain.entity.account.Account;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.AccountRepository;
 import com.example.bankingservice.view.dto.AccountDto;
@@ -20,9 +21,15 @@ public class AccountService {
     public AccountDto readAccounts(AccountDto accountDto) {
         return AccountDto.accountOf(
             accountRepository.findByMemberId(
-                Optional.ofNullable(accountDto.getMember())
-                    .orElse(Member.builder().build())
-                    .getId())
+                    Optional.ofNullable(accountDto.getMember())
+                        .orElse(Member.builder().build())
+                        .getId())
                 .get());
+    }
+
+    public AccountDto findAccountById(Long accountId) {
+        return AccountDto.accountOf(
+            accountRepository.findById(accountId).orElse(Account.builder().build())
+        );
     }
 }

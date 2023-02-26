@@ -68,4 +68,5 @@ public class TradeService {
             .tradeAmount(tradeAmount)
             .build();
     }
+
 }

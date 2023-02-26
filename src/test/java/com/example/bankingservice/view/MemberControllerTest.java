@@ -9,12 +9,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.bankingservice.domain.entity.member.Member;
-import com.example.bankingservice.view.dto.AccountDto;
-import com.example.bankingservice.view.dto.FriendDto;
-import com.example.bankingservice.view.dto.MemberDto;
 import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
+import com.example.bankingservice.view.dto.AccountDto;
+import com.example.bankingservice.view.dto.FriendDto;
+import com.example.bankingservice.view.dto.MemberDto;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -113,7 +113,7 @@ class MemberControllerTest {
             .accept(MediaType.APPLICATION_JSON)
             .characterEncoding("UTF-8")
             .content(
-                "{ \"userName\" : \"로미\", \"loginId\" : \"box1234\"} , \"password\" :\"12345\""));
+                "{ \"userName\" : \"로미\", \"loginId\" : \"box1234\"} , \"password\" :\"12345\"}"));
 
         // then
         perform.andExpect(status().isInternalServerError())
