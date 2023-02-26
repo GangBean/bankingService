@@ -1,8 +1,8 @@
-package com.example.bankingservice.util;
+package com.example.bankingservice.view;
 
-import com.example.bankingservice.domain.view.dto.AccountDto;
-import com.example.bankingservice.domain.view.dto.FriendDto;
-import com.example.bankingservice.domain.view.dto.MemberDto;
+import com.example.bankingservice.view.dto.AccountDto;
+import com.example.bankingservice.view.dto.FriendDto;
+import com.example.bankingservice.view.dto.MemberDto;
 import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;

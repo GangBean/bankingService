@@ -4,7 +4,7 @@ import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.FriendRepository;
 import com.example.bankingservice.domain.repository.MemberRepository;
-import com.example.bankingservice.domain.view.dto.FriendDto;
+import com.example.bankingservice.view.dto.FriendDto;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

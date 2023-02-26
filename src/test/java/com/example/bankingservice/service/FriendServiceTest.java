@@ -10,7 +10,7 @@ import com.example.bankingservice.domain.entity.friend.Friend;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.FriendRepository;
 import com.example.bankingservice.domain.repository.MemberRepository;
-import com.example.bankingservice.domain.view.dto.FriendDto;
+import com.example.bankingservice.view.dto.FriendDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

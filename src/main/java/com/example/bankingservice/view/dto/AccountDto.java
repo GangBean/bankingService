@@ -1,4 +1,4 @@
-package com.example.bankingservice.domain.view.dto;
+package com.example.bankingservice.view.dto;
 
 import com.example.bankingservice.domain.entity.account.Account;
 import com.example.bankingservice.domain.entity.member.Member;

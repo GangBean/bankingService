@@ -5,7 +5,7 @@ import com.example.bankingservice.domain.entity.account.Trade;
 import com.example.bankingservice.domain.entity.account.Trade.TradeType;
 import com.example.bankingservice.domain.repository.AccountRepository;
 import com.example.bankingservice.domain.repository.TradeRepository;
-import com.example.bankingservice.domain.view.dto.TradeMakeDto;
+import com.example.bankingservice.view.dto.TradeMakeDto;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

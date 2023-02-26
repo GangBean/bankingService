@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import com.example.bankingservice.domain.entity.account.Account;
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.AccountRepository;
-import com.example.bankingservice.domain.view.dto.AccountDto;
+import com.example.bankingservice.view.dto.AccountDto;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

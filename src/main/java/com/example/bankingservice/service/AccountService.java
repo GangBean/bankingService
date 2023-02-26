@@ -2,7 +2,7 @@ package com.example.bankingservice.service;
 
 import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.repository.AccountRepository;
-import com.example.bankingservice.domain.view.dto.AccountDto;
+import com.example.bankingservice.view.dto.AccountDto;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

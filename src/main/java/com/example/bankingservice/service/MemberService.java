@@ -4,7 +4,7 @@ import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.entity.member.Password;
 import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.repository.PasswordRepository;
-import com.example.bankingservice.domain.view.dto.MemberDto;
+import com.example.bankingservice.view.dto.MemberDto;
 import com.example.bankingservice.util.EncryptUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
