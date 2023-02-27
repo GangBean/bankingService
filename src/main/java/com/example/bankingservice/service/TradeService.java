@@ -50,6 +50,7 @@ public class TradeService {
             .account(savedWithdraw)
             .tradeDateTime(tradeDateTime)
             .tradeType(TradeType.WITHDRAWAL)
+            .tradeAmount(tradeAmount)
             .build()
         );
 
@@ -57,6 +58,7 @@ public class TradeService {
             .account(savedDeposit)
             .tradeDateTime(tradeDateTime)
             .tradeType(TradeType.DEPOSIT)
+            .tradeAmount(tradeAmount)
             .build()
         );
 

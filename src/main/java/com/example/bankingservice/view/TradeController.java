@@ -30,6 +30,7 @@ public class TradeController {
         TradeMakeDto input = TradeMakeDto.builder()
             .withdrawAccount(withdraw)
             .depositAccount(deposit)
+            .tradeAmount(tradeMakeDto.getTradeAmount())
             .build();
         return new ResponseEntity<>(tradeService.makeTrade(input), HttpStatus.CREATED);
     }

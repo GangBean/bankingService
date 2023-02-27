@@ -1,5 +1,6 @@
 package com.example.bankingservice.view;
 
+import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
@@ -55,6 +56,7 @@ public class MemberController {
     public ResponseEntity<FriendDto> readFriends(@PathVariable Long id,
         @RequestBody FriendDto friendDto) {
         try {
+            friendDto.setMember(Member.builder().id(id).build());
             return new ResponseEntity<>(friendService.readFriends(friendDto), HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -67,6 +69,7 @@ public class MemberController {
     public ResponseEntity<AccountDto> readAccounts(@PathVariable Long id,
         @RequestBody AccountDto accountDto) {
         try {
+            accountDto.setMember(Member.builder().id(id).build());
             return new ResponseEntity<>(accountService.readAccounts(accountDto), HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

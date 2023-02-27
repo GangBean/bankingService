@@ -269,6 +269,7 @@ class TradeServiceTest {
             .tradeAmount(100000L)
             .build();
         when(accountRepository.existsById(any())).thenReturn(true).thenReturn(true);
+        when(accountRepository.existsById(any())).thenReturn(true).thenReturn(true);
 
         // then
         assertThat(assertThrows(RuntimeException.class,
