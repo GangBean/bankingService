@@ -19,9 +19,6 @@ public class TradeService {
     private final TradeRepository tradeRepository;
 
     public TradeMakeDto makeTrade(TradeMakeDto tradeMakeDto) {
-        if (tradeMakeDto.getWithdrawAccount().getId() == tradeMakeDto.getDepositAccount().getId()) {
-            throw new RuntimeException("출금계좌와 입금계좌는 동일할 수 없습니다.");
-        }
 
         if (!accountRepository.existsById(tradeMakeDto.getWithdrawAccount().getId())) {
             throw new RuntimeException("출금계좌가 존재하지 않습니다.");
@@ -29,6 +26,10 @@ public class TradeService {
 
         if (!accountRepository.existsById(tradeMakeDto.getDepositAccount().getId())) {
             throw new RuntimeException("입금계좌가 존재하지 않습니다.");
+        }
+
+        if (tradeMakeDto.getWithdrawAccount().getId() == tradeMakeDto.getDepositAccount().getId()) {
+            throw new RuntimeException("출금계좌와 입금계좌는 동일할 수 없습니다.");
         }
 
         if (tradeMakeDto.getWithdrawAccount().getAmount() < tradeMakeDto.getTradeAmount()) {
