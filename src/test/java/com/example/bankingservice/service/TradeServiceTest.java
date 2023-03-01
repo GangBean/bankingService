@@ -3,6 +3,7 @@ package com.example.bankingservice.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import com.example.bankingservice.domain.entity.account.Account;
@@ -131,6 +132,7 @@ class TradeServiceTest {
             .depositAccount(account1)
             .tradeAmount(1000L)
             .build();
+        given(accountRepository.existsById(any())).willReturn(true).willReturn(true);
 
         // then
         assertThat(assertThrows(RuntimeException.class,
