@@ -1,6 +1,7 @@
 package com.example.bankingservice.view;
 
 import com.example.bankingservice.domain.entity.member.Member;
+import com.example.bankingservice.exception.member.DuplicateLoginIdException;
 import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
@@ -32,7 +33,7 @@ public class MemberController {
     public ResponseEntity<MemberDto> joinMember(@RequestBody MemberDto inputDto) {
         try {
             return new ResponseEntity<>(memberService.join(inputDto), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
+        } catch (DuplicateLoginIdException e) {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

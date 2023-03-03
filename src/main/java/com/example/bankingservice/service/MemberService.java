@@ -4,6 +4,8 @@ import com.example.bankingservice.domain.entity.member.Member;
 import com.example.bankingservice.domain.entity.member.Password;
 import com.example.bankingservice.domain.repository.MemberRepository;
 import com.example.bankingservice.domain.repository.PasswordRepository;
+import com.example.bankingservice.exception.member.DuplicateLoginIdException;
+import com.example.bankingservice.exception.member.MemberException;
 import com.example.bankingservice.util.EncryptUtil;
 import com.example.bankingservice.view.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class MemberService {
 
     private final PasswordRepository passwordRepository;
 
-    public MemberDto join(MemberDto memberDto) throws Exception {
+    public MemberDto join(MemberDto memberDto) throws MemberException {
         validateLoginIdDuplicate(memberDto.getLoginId());
         Member savedMember = memberRepository.save(memberDto.asMember());
 
@@ -37,7 +39,7 @@ public class MemberService {
 
     private void validateLoginIdDuplicate(String loginId) {
         if (memberRepository.findDistinctByLoginId(loginId).isPresent()) {
-            throw new RuntimeException("로그인 ID가 이미 존재합니다.");
+            throw new DuplicateLoginIdException("로그인 ID가 이미 존재합니다.");
         }
     }
 

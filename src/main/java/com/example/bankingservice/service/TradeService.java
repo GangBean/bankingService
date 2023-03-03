@@ -5,6 +5,9 @@ import com.example.bankingservice.domain.entity.account.Trade;
 import com.example.bankingservice.domain.entity.account.Trade.TradeType;
 import com.example.bankingservice.domain.repository.AccountRepository;
 import com.example.bankingservice.domain.repository.TradeRepository;
+import com.example.bankingservice.exception.trade.DepositAccountNotExistsException;
+import com.example.bankingservice.exception.trade.NotEnoughAmountException;
+import com.example.bankingservice.exception.trade.WithdrawAccountNotExistsException;
 import com.example.bankingservice.view.dto.TradeMakeDto;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +42,11 @@ public class TradeService {
 
     private void validateExistsAccounts(TradeMakeDto tradeMakeDto) {
         if (!accountRepository.existsById(tradeMakeDto.getWithdrawAccount().getId())) {
-            throw new RuntimeException("출금계좌가 존재하지 않습니다.");
+            throw new WithdrawAccountNotExistsException("출금계좌가 존재하지 않습니다.");
         }
 
         if (!accountRepository.existsById(tradeMakeDto.getDepositAccount().getId())) {
-            throw new RuntimeException("입금계좌가 존재하지 않습니다.");
+            throw new DepositAccountNotExistsException("입금계좌가 존재하지 않습니다.");
         }
     }
 
@@ -55,7 +58,7 @@ public class TradeService {
 
     private void validateTradeAmount(TradeMakeDto tradeMakeDto) {
         if (tradeMakeDto.getWithdrawAccount().getAmount() < tradeMakeDto.getTradeAmount()) {
-            throw new RuntimeException("출금계좌 잔액이 거래요청금액보다 작습니다.");
+            throw new NotEnoughAmountException("출금계좌 잔액이 거래요청금액보다 작습니다.");
         }
     }
 
