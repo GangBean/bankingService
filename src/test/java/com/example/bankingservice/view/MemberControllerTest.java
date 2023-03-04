@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.bankingservice.domain.entity.member.Member;
+import com.example.bankingservice.exception.member.DuplicateLoginIdException;
+import com.example.bankingservice.exception.member.MemberException;
 import com.example.bankingservice.service.AccountService;
 import com.example.bankingservice.service.FriendService;
 import com.example.bankingservice.service.MemberService;
@@ -85,7 +87,7 @@ class MemberControllerTest {
 
         // when
         given(memberService.join(any()))
-            .willThrow(new RuntimeException("로그인 ID가 이미 존재합니다."));
+            .willThrow(new DuplicateLoginIdException("로그인 ID가 이미 존재합니다."));
 
         ResultActions perform = mvc.perform(post("/members")
             .contentType(MediaType.APPLICATION_JSON)
@@ -106,7 +108,7 @@ class MemberControllerTest {
 
         // when
         given(memberService.join(any()))
-            .willThrow(new Exception());
+            .willThrow(new MemberException());
 
         ResultActions perform = mvc.perform(post("/members")
             .contentType(MediaType.APPLICATION_JSON)
